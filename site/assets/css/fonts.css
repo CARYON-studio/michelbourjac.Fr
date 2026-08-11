@@ -1,0 +1,27 @@
+/* ═══════════════════════════════════════════════════════════
+   POLICES AUTO-HÉBERGÉES — michelbourjac.fr
+
+   Ce fichier est REGÉNÉRÉ par outils/telecharger-polices.ps1.
+   Ne pas l'éditer à la main : la prochaine exécution l'écrasera.
+
+   Tant que le script n'a pas été lancé, les fichiers .woff2
+   n'existent pas et le site s'affiche dans ses polices de repli
+   (Georgia pour les titres, la sans-serif système pour le texte).
+   Le site reste lisible et accessible — seule la typographie change.
+
+   Pourquoi auto-héberger : charger une police depuis Google
+   transmet l'adresse IP du visiteur aux États-Unis, sans base
+   légale. Sur un site de santé mentale, cette IP est une donnée
+   sensible par déduction. La CNIL et la jurisprudence européenne
+   sanctionnent cet usage.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ---------------------------------------------------------------
+   ÉTAT : en attente d'exécution du script.
+
+   À lancer une seule fois, depuis la racine du projet :
+       powershell -ExecutionPolicy Bypass -File outils\telecharger-polices.ps1
+
+   Le script télécharge les woff2 dans site/assets/fonts/ et
+   remplace intégralement ce fichier par les @font-face réels.
+   --------------------------------------------------------------- */
