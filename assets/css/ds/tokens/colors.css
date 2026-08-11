@@ -1,0 +1,64 @@
+/* ─────────────────────────────────────────────────────────
+   CARYON · Color tokens
+   Two layers, on purpose:
+   1) RAW — the actual hex values. THIS is what changes per
+      project (a healthtech case study might swap violet for
+      a clinical teal; a restaurant teaser might go warm terracotta).
+   2) SEMANTIC — the names every component/class reads. These
+      never change. Re-pointing a semantic alias at a new raw
+      value is how a project gets its own palette without any
+      component code changing.
+
+   Default preset below ("Nebula") is CARYON's own — the calm
+   twilight/lavender/violet system used on the live portfolio
+   and Au fil de Nath. Treat it as preset A, not gospel.
+   ───────────────────────────────────────────────────────── */
+
+:root {
+  /* ---- RAW · preset "Nebula" (light) ---- */
+  --raw-surface:      #F4F1F6;  /* primary background, long-form reading */
+  --raw-surface-deep: #EBE6EF;  /* subtle alt surface, card fill */
+  --raw-veil:         #C6BDD9;  /* secondary surfaces, hover fields, photo placeholders */
+  --raw-veil-soft:    #DCD4E4;
+  --raw-accent:       #8C78A8;  /* links, tags, italic accents — used sparingly */
+  --raw-accent-soft:  #A595BB;
+  --raw-contrast:     #50627A;  /* contrasted sections, overlays, dark-panel glow */
+  --raw-ink:          #242630;  /* primary text / dark-mode surface */
+
+  /* ---- SEMANTIC ALIASES — reference these, never --raw-* directly ---- */
+  --surface:          var(--raw-surface);
+  --surface-deep:      var(--raw-surface-deep);
+  --veil:              var(--raw-veil);
+  --veil-soft:         var(--raw-veil-soft);
+  --accent:            var(--raw-accent);
+  --accent-soft:       var(--raw-accent-soft);
+  --contrast:          var(--raw-contrast);
+  --ink:               var(--raw-ink);
+  --ink-soft:          rgba(36,38,48,0.74);
+  --ink-quiet:         rgba(36,38,48,0.58);
+  --ink-faint:         rgba(36,38,48,0.38);
+  --hairline:          rgba(36,38,48,0.12);
+  --hairline-strong:   rgba(36,38,48,0.22);
+
+  /* One signal color, used only for "live / available" states — never decorative */
+  --signal-live:       #6F9C7A;
+}
+
+/* Dark — the default reading mode across CARYON work. Swap raw values
+   only; keep the same four-step depth (surface / surface-deep / veil / ink). */
+:root[data-theme="dark"] {
+  --raw-surface:      #1A1C24;
+  --raw-surface-deep: #22252F;
+  --raw-veil:         #2E3140;
+  --raw-veil-soft:    #262935;
+  --raw-accent:       #B7A5CC;
+  --raw-accent-soft:  #A595BB;
+  --raw-contrast:     #94A2B7;
+  --raw-ink:          #ECE9F1;
+
+  --ink-soft:         rgba(236,233,241,0.78);
+  --ink-quiet:        rgba(236,233,241,0.58);
+  --ink-faint:        rgba(236,233,241,0.38);
+  --hairline:         rgba(236,233,241,0.14);
+  --hairline-strong:  rgba(236,233,241,0.26);
+}
