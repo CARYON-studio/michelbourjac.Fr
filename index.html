@@ -6,7 +6,7 @@
   <title>Michel Bourjac — Psychanalyste &amp; Art-thérapeute à Corme-Écluse (17)</title>
   <meta name="description" content="Michel Bourjac, psychanalyste et art-thérapeute certifié à Corme-Écluse (Charente-Maritime). Une approche inclusive et dynamique, sur mesure pour chaque situation. Premier contact sans engagement.">
   <meta property="og:title" content="Michel Bourjac — Psychanalyste &amp; Art-thérapeute">
-  <meta property="og:description" content="De l'inconscient à l'expression de soi. Cabinet à Corme-Écluse (17). Réponse sous 48 heures.">
+  <meta property="og:description" content="De l'inconscient à la libre expression de soi. Cabinet à Corme-Écluse (17). Réponse sous 48 heures.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://michelbourjac.fr/">
   <meta property="og:locale" content="fr_FR">
@@ -14,11 +14,16 @@
 
   <!-- Polices auto-hébergées — aucune requête vers Google, aucune IP visiteur transmise.
        Fichiers produits par outils/telecharger-polices.ps1 -->
+  <link rel="icon" href="assets/img/favicon/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon/favicon-192x192.png">
   <link rel="stylesheet" href="assets/css/fonts.css">
 
   <!-- DS CARYON (squelette intact) puis peau Michel -->
   <link rel="stylesheet" href="assets/css/ds/styles.css">
-  <link rel="stylesheet" href="assets/css/michel.css">
+  <link rel="stylesheet" href="assets/css/michel.css?v=20260818c">
   <link rel="stylesheet" href="assets/css/maree-haute.css">
 
   <script type="application/ld+json">
@@ -46,9 +51,11 @@
         "name": "Michel Bourjac — Psychanalyste & Art-thérapeute",
         "url": "https://michelbourjac.fr/",
         "telephone": "+33620207391",
+        "email": "psy.mbourjac@gmail.com",
         "priceRange": "40€–90€",
         "address": {
           "@type": "PostalAddress",
+          "streetAddress": "11 rue de Chez Douteau",
           "addressLocality": "Corme-Écluse",
           "postalCode": "17600",
           "addressRegion": "Charente-Maritime",
@@ -67,8 +74,8 @@
   <header class="site-header">
     <div class="shell bar">
       <a class="brand" href="index.html" aria-label="Michel Bourjac — retour à l'accueil">
+        <img class="brand-logo" src="assets/img/logo-michel-bourjac-embleme.jpg" alt="" width="640" height="768">
         <span class="name">Michel Bourjac</span>
-        <span class="t-label">Psychanalyste &amp; Art-thérapeute</span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
         <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
@@ -99,13 +106,14 @@
         <div class="hero-copy">
           <p class="t-label reveal">Cabinet · Corme-Écluse (17)</p>
           <h1 id="hero-title" class="m-h1 reveal" style="--reveal-delay: 80ms;">
-            De l&rsquo;inconscient à <em class="accent">l&rsquo;expression de&nbsp;soi</em>
+            De l&rsquo;inconscient à <em class="accent">la libre expression de&nbsp;soi</em>
           </h1>
           <p class="m-chapo reveal" style="--reveal-delay: 160ms;">
             Une approche inclusive et dynamique, sur mesure pour chaque situation.
           </p>
           <div class="hero-actions reveal" style="--reveal-delay: 240ms;">
             <a class="btn" href="contact.html#formulaire">Écrire un premier message</a>
+            <a class="cta-link" href="#qui-suis-je">Qui suis-je&nbsp;? <span class="arr" aria-hidden="true">↓</span></a>
             <p class="status-pill">
               <span class="dot" aria-hidden="true"></span>
               <span class="txt">Premier contact sans engagement</span>
@@ -113,27 +121,35 @@
           </div>
         </div>
         <figure class="reveal" style="--reveal-delay: 200ms;">
-          <div class="portrait-frame ph">
-            <span>Portrait de Michel — cadrage 4:5, lumière naturelle, sans filtre. En attente.</span>
+          <div class="portrait-frame">
+            <img src="assets/img/michel-bourjac-portrait.jpg" width="1100" height="1375" loading="eager" decoding="async"
+                 alt="Portrait de Michel Bourjac, psychanalyste et art-thérapeute, dans un intérieur chaleureux.">
           </div>
           <figcaption class="t-caption figure-caption">Michel Bourjac, au cabinet de Corme-Écluse.</figcaption>
         </figure>
       </div>
     </section>
 
-    <!-- ═══ Bandeau citation ═══ -->
+    <!-- ═══ Bandeau citation — photo de paysage incrustée (24/08),
+         ton calme et sécurisant demandé par Michel ═══ -->
     <section class="section" aria-label="Citation">
       <div class="shell">
-        <div class="band reveal">
-          <blockquote class="quote">
-            <p style="margin:0">Accueillir dans un espace où chacun se sent en sécurité, reconnu et entendu — sans jugement.</p>
-          </blockquote>
+        <div class="band band--photo reveal">
+          <div class="photo-media" style="background-image: url('assets/img/paysages/paysage-mer-securisant.jpg');"></div>
+          <div class="legende">
+            <blockquote class="quote">
+              <p style="margin:0">Accueillir dans un espace où chacun se sent en sécurité, reconnu et entendu — sans jugement.</p>
+            </blockquote>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ═══ — 01 · Qui suis-je ? ═══ -->
-    <section class="section band-wash band-wash--tide" id="qui-suis-je" aria-labelledby="h-qui">
+    <section class="section band-wash band-wash--tide medaillon-host" id="qui-suis-je" aria-labelledby="h-qui">
+      <span class="medaillon medaillon--left" aria-hidden="true">
+        <img src="assets/img/medaillons/escalier.jpg" width="700" height="700" loading="lazy" decoding="async" alt="">
+      </span>
       <div class="shell">
         <div class="section-head section--ruled reveal">
           <span class="num">— 01</span>
@@ -165,7 +181,7 @@
               <dl class="stat-grid" style="grid-template-columns: 1fr;">
                 <div class="cell">
                   <dt>Cabinet</dt>
-                  <dd>Corme-Écluse (17600)</dd>
+                  <dd>11 rue de Chez Douteau, 17600 Corme-Écluse</dd>
                 </div>
                 <div class="cell">
                   <dt>Public</dt>
@@ -182,6 +198,50 @@
               </dl>
             </div>
           </aside>
+        </div>
+
+        <!-- Parcours détaillé — replié par défaut : la section reste courte,
+             et qui veut le détail va le chercher. -->
+        <div class="accordions parcours-acc reveal" style="--reveal-delay: 120ms;">
+          <details class="acc" id="parcours">
+            <summary>
+              <span>Mon parcours et ma formation</span>
+              <span class="sign" aria-hidden="true"></span>
+            </summary>
+            <div class="acc-body">
+              <p>Dès mes premières confrontations avec les aléas de la vie, j&rsquo;ai été poussé
+                 à explorer les mécanismes de la pensée humaine, les racines de nos difficultés
+                 comme de notre bonheur. Mon expérience de trente ans en tant que manager dans
+                 l&rsquo;industrie m&rsquo;a permis de constater les limites des techniques de
+                 persuasion et de coaching face aux réalités intimes et aux obstacles personnels
+                 de chacun.</p>
+
+              <h3 class="m-h3">Ma formation</h3>
+              <p>Ma formation s&rsquo;est déroulée à l&rsquo;Institut Freudien de Psychanalyse à Pau,
+                 puis à Bordeaux, sous l&rsquo;égide de l&rsquo;Institut Freudien de Psychanalyse
+                 Nîmois. J&rsquo;ai bénéficié d&rsquo;un cursus complet, alliant théorie et pratique,
+                 complété par une analyse personnelle et didactique sur plusieurs années. Avec la
+                 soutenance d&rsquo;un mémoire, cette démarche constitue une exigence réglementaire
+                 pour l&rsquo;obtention du titre de «&nbsp;psychanalyste&nbsp;», me permettant ainsi
+                 de devenir membre de l&rsquo;IFP<sup><a href="#note-ifp" id="renvoi-ifp"
+                 aria-label="Voir la note sur le sigle IFP">*</a></sup>. Ma pratique est encadrée
+                 par un Code de Déontologie strict, garantissant un accompagnement respectueux et
+                 éthique de mes patients.</p>
+
+              <h3 class="m-h3">Ma formation continue</h3>
+              <p>En tant que membre de la Fédération Freudienne de Psychanalyse, je poursuis mon
+                 engagement dans la formation continue, participant régulièrement à des séminaires
+                 et à des colloques multidisciplinaires. Bien que ma formation soit ancrée dans la
+                 pensée freudienne, elle s&rsquo;enrichit également des apports de nombreux
+                 psychanalystes de renom tels que Mélanie Klein, D. Winnicott, W.R. Bion, A. Green,
+                 R. Roussillon, J.M. Lacan, D. Anzieux&hellip;</p>
+
+              <p class="t-caption note-sigle" id="note-ifp">
+                * IFP : Institut Freudien de Psychanalyse.
+                <a href="#renvoi-ifp" aria-label="Revenir au texte">↩</a>
+              </p>
+            </div>
+          </details>
         </div>
       </div>
     </section>
@@ -235,8 +295,8 @@
         </h2>
         <div class="pratiques-grid">
           <article class="card reveal">
-            <h3 class="m-h3">Psychanalyse</h3>
-            <p>Un travail d&rsquo;orientation psychodynamique, pour parcourir votre histoire
+            <h3 class="m-h3">Psychanalyse — Orientation psychodynamique</h3>
+            <p>Une approche d&rsquo;orientation psychodynamique, pour parcourir votre histoire
                personnelle et vous découvrir comme sujet unique. Une séance de 45 minutes
                par semaine, le plus souvent.</p>
             <a class="cta-link" href="pratiques.html#psychanalyse">En savoir plus <span class="arr" aria-hidden="true">↗</span></a>
@@ -270,8 +330,21 @@
       </div>
     </section>
 
+    <!-- ═══ Intercalaire — respiration plein largeur (24/08) ═══ -->
+    <section class="intercalaire" aria-label="Citation">
+      <div class="photo-media" style="background-image: url('assets/img/paysages/paysage-arbre-dore.jpg');"></div>
+      <div class="legende">
+        <blockquote class="quote">
+          <p style="margin:0">La psychanalyse permet d&rsquo;accéder à une existence plus harmonieuse.</p>
+        </blockquote>
+      </div>
+    </section>
+
     <!-- ═══ — 04 · Une séance ═══ -->
-    <section class="section band-wash band-wash--sand" id="seance" aria-labelledby="h-seance">
+    <section class="section band-wash band-wash--sand medaillon-host" id="seance" aria-labelledby="h-seance">
+      <span class="medaillon medaillon--right" aria-hidden="true">
+        <img src="assets/img/medaillons/banc-fleuri.jpg" width="700" height="700" loading="lazy" decoding="async" alt="">
+      </span>
       <div class="shell">
         <div class="section-head section--ruled reveal">
           <span class="num">— 04</span>
@@ -310,6 +383,16 @@
       </div>
     </section>
 
+    <!-- ═══ Fenêtre photo — respiration entre les sections ═══ -->
+    <section class="section" aria-hidden="true">
+      <div class="shell">
+        <div class="photo-window reveal">
+          <img src="assets/img/paysages/paysage-coucher-soleil-1.jpg" width="1386" height="1040"
+               loading="lazy" decoding="async" alt="">
+        </div>
+      </div>
+    </section>
+
     <!-- ═══ — 05 · Contact ═══ -->
     <section class="section" id="contact" aria-labelledby="h-contact">
       <div class="shell">
@@ -323,8 +406,8 @@
             <div>
               <h2 id="h-contact" class="m-h2">Me contacter</h2>
               <p style="max-width:44ch; color: var(--surface); font-size:17px; line-height:1.65;">
-                Un premier message n&rsquo;engage à rien. Indiquez vos disponibilités, et
-                je vous rappelle sous 48 heures.
+                Vous désirez me contacter, en savoir plus ou faire une demande de rendez-vous,
+                c&rsquo;est ici. Indiquez vos disponibilités, et je vous rappelle sous 48 heures.
               </p>
               <div class="contact-actions">
                 <a class="btn btn--on-dark" href="contact.html">Écrire un message</a>
@@ -339,12 +422,12 @@
                 <dd><a href="tel:+33620207391">06 20 20 73 91</a></dd>
               </div>
               <div>
-                <dt>Message</dt>
-                <dd><a href="contact.html">Formulaire de contact</a></dd>
+                <dt>E-mail</dt>
+                <dd><a href="mailto:psy.mbourjac@gmail.com">psy.mbourjac@gmail.com</a></dd>
               </div>
               <div>
                 <dt>Cabinet</dt>
-                <dd>Corme-Écluse (17600) — parking sur place</dd>
+                <dd>11 rue de Chez Douteau, 17600 Corme-Écluse — parking sur place</dd>
               </div>
               <div>
                 <dt>Réponse</dt>
@@ -360,6 +443,7 @@
   <!-- ═══ Footer ═══ -->
   <footer class="site-footer">
     <div class="shell inner">
+      <img class="footer-logo" src="assets/img/logo-michel-bourjac-horizontal.jpg" width="900" height="509" loading="lazy" decoding="async" alt="Michel Bourjac — Psychanalyse, thérapie psychodynamique, art-thérapie">
       <p class="footer-thought">« Ce qui se dit ici ne sort pas d&rsquo;ici. »</p>
       <nav class="footer-legal" aria-label="Navigation de pied de page">
         <span>© 2026 Michel Bourjac · HELISCOOP</span>
@@ -379,6 +463,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/main.js?v=20260818b" defer></script>
 </body>
 </html>

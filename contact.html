@@ -14,10 +14,21 @@
 
   <!-- Polices auto-hébergées — aucune requête vers Google, aucune IP visiteur transmise.
        Fichiers produits par outils/telecharger-polices.ps1 -->
+  <link rel="icon" href="assets/img/favicon/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon/favicon-192x192.png">
   <link rel="stylesheet" href="assets/css/fonts.css">
   <link rel="stylesheet" href="assets/css/ds/styles.css">
-  <link rel="stylesheet" href="assets/css/michel.css">
+  <link rel="stylesheet" href="assets/css/michel.css?v=20260818c">
   <link rel="stylesheet" href="assets/css/maree-haute.css">
+
+  <!-- Cloudflare Turnstile — anti-spam du formulaire, demandé le 24/08.
+       Seule ressource tierce chargée sur ce site (avec Brevo, côté serveur
+       uniquement). À déclarer dans SECURITE-michelbourjac.md §4 et dans la
+       CSP (script-src, frame-src) avant mise en ligne. -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Aller au contenu principal</a>
@@ -25,8 +36,8 @@
   <header class="site-header">
     <div class="shell bar">
       <a class="brand" href="index.html" aria-label="Michel Bourjac — retour à l'accueil">
+        <img class="brand-logo" src="assets/img/logo-michel-bourjac-embleme.jpg" alt="" width="640" height="768">
         <span class="name">Michel Bourjac</span>
-        <span class="t-label">Psychanalyste &amp; Art-thérapeute</span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
         <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
@@ -55,7 +66,7 @@
       <div class="shell">
         <p class="t-label reveal">— Me contacter</p>
         <h1 id="page-title" class="m-h1 reveal" style="--reveal-delay: 80ms;">
-          Un premier message <em class="accent">n&rsquo;engage à rien</em>
+          Prendre le temps <em class="accent">d&rsquo;un premier message</em>
         </h1>
         <p class="m-chapo reveal" style="--reveal-delay: 160ms;">
           Par message si vous préférez écrire, par téléphone si vous préférez la voix.
@@ -70,7 +81,10 @@
     </section>
 
     <!-- ═══ — 01 · Par message ═══ -->
-    <section class="section band-wash band-wash--tide" id="formulaire" aria-labelledby="h-form">
+    <section class="section band-wash band-wash--tide medaillon-host" id="formulaire" aria-labelledby="h-form">
+      <span class="medaillon medaillon--right" aria-hidden="true">
+        <img src="assets/img/medaillons/planche-verdure.jpg" width="700" height="700" loading="lazy" decoding="async" alt="">
+      </span>
       <div class="shell">
         <div class="section-head section--ruled reveal">
           <span class="num">— 01</span>
@@ -84,11 +98,31 @@
               quelques mots la raison de votre demande — ce n&rsquo;est pas obligatoire.
             </p>
 
-            <!-- Formulaire Brevo — remplacer l'action par l'URL d'automation à la configuration.
-                 Aucune adresse email n'apparaît dans le HTML (choix client, protection anti-spam). -->
-            <!-- La validation native du navigateur est conservée (pas de novalidate) :
-                 sans JS de validation, novalidate = échec silencieux sur champ oublié. -->
-            <form class="form" method="POST" action="[URL_BREVO_A_CONFIGURER]">
+            <!-- Formulaire → Worker Cloudflare (contact-worker.js) → Brevo.
+                 Remplacer l'action par l'URL réelle du Worker déployé
+                 (cf. Brancher-Brevo-Turnstile.md). Aucune adresse email
+                 n'apparaît dans le HTML (choix client, protection anti-spam). -->
+            <!-- Validation : main.js pose `novalidate` LUI-MÊME au chargement, et
+                 seulement s'il s'exécute. Sans JS, la validation native reprend la
+                 main — pas d'échec silencieux. Voir main.js §5. -->
+            <!-- Message d'échec : le Worker redirige vers
+                 contact.html?probleme=RAISON#formulaire. main.js §6 affiche
+                 alors le bandeau ci-dessous et y déplace le focus — sans JS,
+                 le formulaire reste utilisable, seul ce bandeau n'apparaît pas. -->
+            <div class="form-erreurs" id="form-probleme" tabindex="-1" hidden>
+              <h2>Votre message n&rsquo;a pas pu être envoyé.</h2>
+              <p id="form-probleme-texte">Vérifiez les champs ci-dessous et réessayez, ou appelez-moi au
+                <a href="tel:+33620207391">06 20 20 73 91</a>.</p>
+            </div>
+            <form class="form" method="POST" action="https://michel-contact.purple-block-fb2e.workers.dev">
+              <!-- Résumé des erreurs — rempli et dévoilé par main.js à la soumission.
+                   Pas de role="alert" : on DÉPLACE le focus ici (tabindex="-1"), ce qui
+                   suffit à l'annonce et évite la double lecture alerte + focus.
+                   Même parti que le composant error-summary du GOV.UK Design System. -->
+              <div class="form-erreurs" id="form-erreurs" tabindex="-1" hidden>
+                <h2 id="form-erreurs-titre">Votre message n’a pas été envoyé.</h2>
+                <ul id="form-erreurs-liste"></ul>
+              </div>
               <div class="row">
                 <div class="field">
                   <label for="prenom">Prénom</label>
@@ -136,6 +170,11 @@
                 <input type="text" id="site-web" name="SITE_WEB" tabindex="-1" autocomplete="off">
               </div>
 
+              <!-- Turnstile — case « je ne suis pas un robot » sans les cookies
+                   tiers de reCAPTCHA. Remplacer par la vraie clé de site
+                   (publique, sans risque à exposer) une fois le Worker créé. -->
+              <div class="cf-turnstile" data-sitekey="0x4AAAAAAEbWhr8kyR87rT_i" data-theme="light" data-language="fr"></div>
+
               <!-- Bloc RGPD — information, pas consentement.
                    Base légale : intérêt légitime (répondre à une demande spontanée),
                    conformément à FK-10. Pas de case à cocher : elle n'apporterait
@@ -148,8 +187,15 @@
               </p>
               <div>
                 <button class="btn" type="submit">Envoyer mon message</button>
+                <p class="hint" style="margin-top: var(--xs)">Je vous réponds sous 48 heures.</p>
               </div>
             </form>
+
+            <p class="m-secondary" style="margin-top: var(--m); max-width:44ch">
+              Si vous souhaitez en savoir davantage sur mon approche ou envisager un
+              accompagnement, vous pouvez m&rsquo;écrire. Indiquez vos disponibilités et je
+              vous rappelle sous 48 h.
+            </p>
           </div>
 
           <div class="col reveal" style="--reveal-delay: 100ms;">
@@ -203,11 +249,12 @@
           <div class="col reveal" style="--reveal-delay: 100ms;">
             <h3 class="m-h3">Le cabinet</h3>
             <p class="m-secondary" style="max-width:42ch">
-              Corme-Écluse (17600). Au calme, avec un parking sur place, dans un cadre
-              accueillant et bienveillant.
+              11 rue de Chez Douteau, 17600 Corme-Écluse. Au calme, avec un parking sur place,
+              dans un cadre accueillant et bienveillant.
             </p>
-            <p class="ph" data-src="Adresse précise du cabinet — Michel" style="margin-top: var(--s); max-width:42ch">
-              Rue et numéro à confirmer, pour l&rsquo;itinéraire et le référencement local.
+            <p class="m-secondary" style="margin-top: var(--s); max-width:42ch">
+              Vous pouvez aussi écrire à
+              <a href="mailto:psy.mbourjac@gmail.com" style="text-decoration:underline; text-underline-offset:3px;">psy.mbourjac@gmail.com</a>.
             </p>
           </div>
         </div>
@@ -237,7 +284,7 @@
               </div>
             </div>
             <dl class="contact-dl">
-              <div><dt>Adulte</dt><dd>60 €</dd></div>
+              <div><dt>Adulte</dt><dd>55 €</dd></div>
               <div><dt>Enfant · Ado</dt><dd>40 €</dd></div>
               <div><dt>Couple</dt><dd>90 €</dd></div>
               <div><dt>Art-thérapie</dt><dd>60 € en individuel</dd></div>
@@ -250,6 +297,7 @@
 
   <footer class="site-footer">
     <div class="shell inner">
+      <img class="footer-logo" src="assets/img/logo-michel-bourjac-horizontal.jpg" width="900" height="509" loading="lazy" decoding="async" alt="Michel Bourjac — Psychanalyse, thérapie psychodynamique, art-thérapie">
       <p class="footer-thought">« Ce qui se dit ici ne sort pas d&rsquo;ici. »</p>
       <nav class="footer-legal" aria-label="Navigation de pied de page">
         <span>© 2026 Michel Bourjac · HELISCOOP</span>
@@ -269,6 +317,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/main.js?v=20260818b" defer></script>
 </body>
 </html>

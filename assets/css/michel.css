@@ -42,6 +42,13 @@
   --cta-bg:           #1E4652;
   --cta-fg:           #F7F4EF;
 
+  /* Erreur de formulaire — SEULE couleur ajoutée à la DA « Marée haute ».
+     Brique obtenue en poussant l'ambre validé #D98A2B vers l'encre #1E2A32 :
+     même famille chaude, aucune teinte étrangère à la palette.
+     Ratios : 9,14:1 sur --surface · 8,13:1 sur --surface-deep → AAA.
+     Elle ne porte JAMAIS l'information seule (texte + ⚠ + aria-invalid). */
+  --erreur:           #7A1F1B;
+
   /* — Polices (Literata + Source Sans 3, chargées via <link>) — */
   --ff-sans:  "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
   --ff-serif: "Literata", Georgia, serif;
@@ -49,6 +56,25 @@
   /* — Conteneur Michel : 1120px (vs 1280 par défaut DS) — */
   --w-shell: 1120px;
 }
+
+/* ─── §1 bis · Barre de défilement — aux couleurs de la DA ───
+   Firefox : propriété standard. WebKit/Chromium/Edge : pseudo-éléments.
+   Pas de support Safari pour scrollbar-color avant la 18.2 — le
+   dégradé WebKit prend le relais sur ces versions. Aucune couleur
+   hors palette « Marée haute ». */
+html {
+  scrollbar-color: var(--accent) var(--surface-deep);
+  scrollbar-width: thin;
+}
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--surface-deep); }
+::-webkit-scrollbar-thumb {
+  background-color: var(--accent);
+  border-radius: 8px;
+  border: 3px solid var(--surface-deep);
+}
+::-webkit-scrollbar-thumb:hover { background-color: var(--accent-strong); }
+::-webkit-scrollbar-corner { background: var(--surface-deep); }
 
 /* ─── §2 · Accessibilité AAA — corrections sur le reset DS ─── */
 /* Focus : la DA impose l'encre, pas l'accent (l'ambre ne porte jamais de sens seul) */
@@ -58,6 +84,13 @@
 }
 /* Survol de lien : jamais d'ambre sur du texte → bleu profond */
 a:hover { color: var(--accent-strong); }
+/* Emphase : 500, la graisse d'insistance du DS — et la seule chargée.
+   Sans cette règle, <strong> vaut 700 par défaut : le navigateur n'ayant
+   ni 600 ni 700 en Source Sans 3, il fabrique un faux gras en épaississant
+   les contours. Bouillie à l'écran, et illisible en petit corps.
+   Deux règles locales (.urgence strong, .ruled-list strong) faisaient déjà
+   ce choix ; on le généralise plutôt que de le répéter. */
+strong, b { font-weight: 500; color: var(--ink); }
 /* Skip-link */
 .skip-link {
   position: absolute; left: var(--m); top: -60px;
@@ -96,10 +129,15 @@ a:hover { color: var(--accent-strong); }
 /* ─── §4 · Composants DS → classes statiques (mêmes règles que les .jsx) ─── */
 
 /* SectionHead — « — 01 · Label » : .section-head vit déjà dans ds/base/layout.css */
+/* Titres de section rendus plus présents (demande Michel, 24/08) : taille et graisse
+   augmentées, tout en restant un repère de navigation plutôt qu&rsquo;un titre visuel concurrent
+   des m-h2 qui suivent. */
 .section-head .label {
-  font-family: var(--ff-sans); font-weight: 500; font-size: 11px;
-  letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-quiet);
+  font-family: var(--ff-sans); font-weight: 600; font-size: 17px;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink);
 }
+.section-head .num { font-size: 15px; }
+.t-label.reveal { font-size: 15px; font-weight: 600; letter-spacing: 0.1em; color: var(--ink-soft); }
 
 /* Card */
 .card {
@@ -217,13 +255,41 @@ a:hover { color: var(--accent-strong); }
 }
 .site-header .bar {
   display: flex; align-items: center; justify-content: space-between;
-  gap: var(--m); padding-top: var(--s); padding-bottom: var(--s);
+  gap: var(--m); padding-top: 12px; padding-bottom: 12px;
+  /* Retour Emilien (24/08, 8e passage) : logo +30% (44→57px) SANS
+     agrandir la navbar — le padding vertical cède la place gagnée par
+     le logo (16px→12px). Le bouton "Écrire un message" (min-height
+     48px) fixait jusqu'ici la hauteur de la barre ; le logo, à 57px,
+     la dépasse et devient l'élément qui la détermine désormais — d'où
+     un padding réduit pour que le total ne bouge (quasi) pas :
+     ~80px avant, ~81px maintenant en desktop, et même plus compact
+     en dessous de 1080px (le nav-toggle, 44px, ne domine plus). */
 }
 /* Le CTA garde sa largeur naturelle : c'est la navigation qui cède. */
 .site-header .bar > .btn { flex: 0 0 auto; }
-.brand { display: flex; flex-direction: column; gap: 2px; }
-.brand .name { font-family: var(--ff-serif); font-weight: 500; font-size: 19px; color: var(--ink); }
+
+/* Ancres internes — le header est collant : sans cette réserve,
+   la cible d'une ancre se range DERRIÈRE le header et l'utilisateur
+   atterrit au milieu du contenu, persuadé que le lien est cassé.
+   Valeurs alignées sur la hauteur réelle du header (logo + padding). */
+:where(section, details, h2, h3)[id] { scroll-margin-top: 96px; }
+@media (max-width: 900px) {
+  :where(section, details, h2, h3)[id] { scroll-margin-top: 88px; }
+}
+.brand { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
+/* Retour Emilien (24/08, 7e passage) : le texte intégré au logo (nom,
+   sous-titre, baseline) ne peut pas être rendu lisible dans un bandeau
+   de hauteur raisonnable sans un header disproportionné — vérifié en
+   6e passage. Parti retenu : le header ne montre QUE l'emblème (rogné
+   depuis le logo horizontal, sans aucun texte), accompagné d'un vrai nom
+   en HTML — texte net à toute taille, contrairement à du texte figé
+   dans une image raster. Le sous-titre/la baseline ne sont pas repris
+   ici : c'est le rôle du logo complet en pied de page. */
+.brand .name { font-family: var(--ff-serif); font-weight: 500; font-size: 19px; color: var(--ink); white-space: nowrap; }
 .brand:hover .name { color: var(--ink); }
+.brand-logo { height: 57px; width: auto; display: block; }
+@media (max-width: 1080px) { .brand-logo { height: 49px; } .brand .name { font-size: 17px; } }
+@media (max-width: 480px) { .brand-logo { height: 44px; } .brand .name { font-size: 15px; } }
 .site-nav { display: flex; align-items: center; gap: var(--m); }
 .site-nav a {
   font-size: 15px; font-weight: 500; color: var(--ink-soft);
@@ -271,6 +337,26 @@ a:hover { color: var(--accent-strong); }
 }
 .portrait-frame img { width: 100%; height: 100%; object-fit: cover; }
 .figure-caption { margin-top: var(--s); }
+
+/* ─── Fenêtre photo — bande encadrée, la photo défile doucement au
+   scroll (façon hublot). L'image est plus haute que la fenêtre ;
+   main.js décale sa position verticale selon la progression de
+   la bande dans la fenêtre du navigateur. Respecte
+   prefers-reduced-motion : l'image reste alors simplement centrée. ── */
+.photo-window {
+  position: relative; overflow: hidden;
+  border: 1px solid var(--hairline); border-radius: var(--r-m);
+  height: clamp(180px, 26vw, 340px);
+  background: var(--veil-soft);
+}
+.photo-window img {
+  position: absolute; left: 0; top: 0; width: 100%; height: 220%;
+  object-fit: cover; transform: translateY(-60%);
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo-window img { transform: translateY(-60%) !important; }
+}
 
 /* Orbe d'ambiance — unique effet atmosphérique autorisé */
 .orb {
@@ -341,6 +427,14 @@ a:hover { color: var(--accent-strong); }
   padding-top: var(--xl); padding-bottom: var(--xl);
   display: flex; flex-direction: column; gap: var(--m);
 }
+/* Logo horizontal reçu de Michel (24/08) — utilisé aussi dans le header
+   depuis le 6e passage. Ici en pied de page : fond crème identique à
+   --surface, aucune bordure ne se voit.
+   Retour Emilien (24/08, 6e passage) : agrandi (280→380px) pour que la
+   ligne fine « PSYCHANALYSE - THÉRAPIE… » reste lisible, pas seulement
+   le nom. */
+.footer-logo { width: min(380px, 72vw); height: auto; display: block; }
+@media (max-width: 480px) { .footer-logo { width: min(280px, 78vw); } }
 .footer-thought {
   font-family: var(--ff-serif); font-style: italic;
   font-size: clamp(20px, 2.2vw, 28px); line-height: 1.2; color: var(--ink);
@@ -394,6 +488,16 @@ a:hover { color: var(--accent-strong); }
 .acc .acc-body ul { margin: 0; padding-left: 1.2em; }
 .acc .acc-body li { font-size: 17px; line-height: 1.7; color: var(--ink-soft); margin-bottom: 6px; }
 .acc .acc-body .m-h3 { margin-top: var(--m); }
+
+/* Accordéon « Mon parcours » — posé sous la grille de la section Qui suis-je ?,
+   il en prolonge le rythme sans allonger la page tant qu'il est replié. */
+.parcours-acc { margin-top: var(--xl); }
+
+/* Note de sigle — renvoi et retour cliquables, cible tactile préservée. */
+.note-sigle { margin-top: var(--m); }
+.note-sigle a { color: var(--ink-quiet); border-bottom: 1px solid var(--hairline-strong); }
+.note-sigle a:hover { color: var(--ink); }
+sup a { text-decoration: none; padding: 0 2px; }
 
 /* En résumé — reformulation courte en tête des réponses longues (FALC).
    Une personne épuisée ou anxieuse doit pouvoir repartir après trois phrases. */
@@ -526,6 +630,254 @@ a:hover { color: var(--accent-strong); }
 .portrait-frame.ph { display: flex; align-items: center; justify-content: center; text-align: center; padding: var(--l); border-radius: var(--r-m); }
 .portrait-frame.ph::before { content: none; }
 
+/* ─── §6 bis · Galerie d'œuvres ────────────────────────────
+   Tuile carrée, œuvre CONTENUE et jamais rognée : on ne recadre
+   pas le travail de quelqu'un pour faire joli. La tuile s'adapte
+   à l'œuvre, pas l'inverse.
+
+   Deux pièges désamorcés ici :
+   1. la galerie vit dans un .acc-body, où `ul li` reçoit un retrait
+      de 30px et une puce vague en ::before — d'où des colonnes
+      rognées et un chevron parasite au-dessus de chaque tuile.
+      On neutralise, avec la spécificité nécessaire pour gagner.
+   2. l'aspect-ratio est porté par le CADRE, pas par l'image. Posé
+      sur l'image, il entre en conflit avec la hauteur que la grille
+      lui impose en s'étirant, et la tuile part en colonne. Ici la
+      hauteur est bornée par le cadre : plus rien ne peut s'étirer. */
+.galerie,
+.acc-body ul.galerie {
+  list-style: none;
+  margin: var(--l) 0 0;
+  padding: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--l);
+}
+.galerie > li,
+.acc-body ul.galerie > li {
+  margin: 0; padding: 0; position: static; font-size: inherit;
+}
+.galerie > li::before,
+.acc-body ul.galerie > li::before { content: none; display: none; }
+
+.galerie figure { margin: 0; }
+
+.galerie .cadre {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; aspect-ratio: 1 / 1;
+  background: var(--surface-deep);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-s);
+  overflow: hidden;
+}
+/* Retour Emilien (24/08, v2) : même DA que les vignettes-ponctuation
+   (cadre-mini) — bordure fine + coin arrondi, photo au ras du cadre,
+   sans le pourtour matelassé (padding + fond) de la v1. object-fit:
+   contain (et non cover, comme cadre-mini) : contrairement aux photos-
+   ponctuation, ce sont des travaux de patients, à montrer intégralement,
+   jamais recadrés. */
+.galerie .cadre img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: contain;
+}
+.galerie figcaption { margin-top: 8px; }
+
+/* Encadré « à valider » posé DANS le contenu — plus fort qu'un .ph
+   parce qu'il porte une réserve juridique, pas une info manquante. */
+.reserve {
+  margin: var(--m) 0 0;
+  padding: var(--s) var(--m);
+  border-left: 3px solid var(--accent-strong);
+  background: var(--surface-deep);
+  font-size: 15px; line-height: 1.55; color: var(--ink-soft);
+  max-width: 60ch;
+}
+
+/* ─── §6 ter · Erreurs de formulaire ───────────────────────
+   Jamais la couleur seule : un texte nommant le champ, relié au
+   champ par aria-describedby, plus un résumé en tête de formulaire.
+   Le rouge n'est qu'un renfort — retirez-le, l'information tient. */
+.form-erreurs {
+  margin: 0 0 var(--l);
+  padding: var(--m);
+  border: 1px solid var(--erreur);
+  border-left: 3px solid var(--erreur);
+  border-radius: var(--r-s);
+  background: var(--surface-deep);
+}
+.form-erreurs[hidden] { display: none; }
+.form-erreurs h2 {
+  font-family: var(--ff-sans); font-size: 16px; font-weight: 500;
+  color: var(--erreur); margin: 0 0 var(--xs);
+}
+.form-erreurs ul { margin: 0; padding-left: 1.2em; }
+.form-erreurs li { font-size: 15px; line-height: 1.6; color: var(--ink-soft); }
+.form-erreurs p { font-size: 15px; line-height: 1.6; color: var(--ink-soft); margin: 0; }
+.form-erreurs a { color: var(--erreur); text-decoration: underline; text-underline-offset: 3px; }
+
+/* Turnstile — widget injecté par le script Cloudflare, taille fixe ~300×65 px */
+.cf-turnstile { margin: var(--s) 0; }
+
+.field .erreur {
+  display: block; margin-top: 6px;
+  font-size: 14px; line-height: 1.5; color: var(--erreur);
+}
+.field .erreur::before { content: "⚠ "; }
+.field input[aria-invalid="true"],
+.field textarea[aria-invalid="true"] {
+  border-color: var(--erreur);
+  box-shadow: inset 0 0 0 1px var(--erreur);
+}
+
+/* ─── §6 quater · Photos reçues le 24/08 — intercalaires, médaillons ───
+   Trois usages distincts, mêmes photos brutes de Michel (17 rue, hiver,
+   Corme-Écluse et alentours), traitées comme la galerie d'œuvres :
+   1000-1600 px, JPEG progressif q78, -strip (aucun EXIF, même prudence
+   que pour les œuvres de patients). */
+
+/* Intercalaires — bandeaux plein largeur (hors .shell, volontairement)
+   entre deux sections.
+   Retour Emilien (24/08, v1) : le voile sombre sur toute la photo
+   « perdait l'intérêt » du cliché pour gagner en lisibilité.
+   Retour Emilien (24/08, v2) : la bande-légende posée EN BAS de la
+   photo (v2, immersive plein cadre) cachait trop du cliché — « on voit
+   encore moins les photos ». Nouveau parti (v3) : plus de superposition
+   du tout. Photo et texte côte à côte, chacun sur sa moitié — la photo
+   est montrée intégralement (aucun pixel masqué), le texte est sur un
+   pavé --ink plein à côté, donc toujours AAA sans dépendre du cliché.
+   .photo-media porte l'image en style inline (background-image), la
+   .legende porte la citation. Empilés en colonne unique sous 800px. */
+.intercalaire,
+.band.band--photo {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  align-items: stretch;
+  min-height: 340px;
+}
+.intercalaire .photo-media,
+.band.band--photo .photo-media {
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+  min-height: 260px;
+}
+.intercalaire .legende,
+.band.band--photo .legende {
+  position: relative;
+  overflow: hidden; /* clip la nappe de vagues ci-dessous, débordée à dessein */
+  background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--xl) var(--l) calc(var(--xl) + 40px);
+}
+/* Retour Emilien (24/08, 4e passage) : la crête d'écume, signature du DS
+   sur tout fond sombre (.dark-panel), manquait sous les pavés de citation.
+   Remise en place — même trame que .dark-panel::after (ambre clair sur
+   fond sombre), pas celle de .band::after (ink sur fond ambre, invisible
+   ici puisque .legende est déjà --ink). */
+.intercalaire .legende::after,
+.band.band--photo .legende::after {
+  content: ""; position: absolute; left: -620px; right: -620px; bottom: 0; height: 44px;
+  pointer-events: none;
+  background-repeat: repeat-x; background-size: 330px 44px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='80' viewBox='0 0 600 80'%3E%3Cpath d='M0 32.65Q5 33.05 7.5 33.41Q10 33.76 12.5 34.23Q15 34.71 17.5 35.27Q20 35.83 22.5 36.44Q25 37.04 27.5 37.66Q30 38.29 32.5 38.92Q35 39.56 37.5 40.19Q40 40.82 42.5 41.44Q45 42.06 47.5 42.67Q50 43.27 52.5 43.86Q55 44.44 57.5 44.98Q60 45.53 62.5 46.02Q65 46.5 67.5 46.9Q70 47.3 72.5 47.58Q75 47.87 77.5 48.01Q80 48.15 82.5 48.11Q85 48.08 87.5 47.86Q90 47.64 92.5 47.23Q95 46.83 97.5 46.27Q100 45.7 102.5 45.01Q105 44.31 107.5 43.54Q110 42.77 112.5 41.98Q115 41.2 117.5 40.45Q120 39.71 122.5 39.08Q125 38.44 127.5 37.95Q130 37.47 132.5 37.16Q135 36.85 137.5 36.73Q140 36.62 142.5 36.69Q145 36.75 147.5 36.97Q150 37.19 152.5 37.52Q155 37.86 157.5 38.27Q160 38.67 162.5 39.09Q165 39.52 167.5 39.94Q170 40.36 172.5 40.74Q175 41.12 177.5 41.45Q180 41.78 182.5 42.08Q185 42.37 187.5 42.63Q190 42.89 192.5 43.16Q195 43.42 197.5 43.7Q200 43.98 202.5 44.3Q205 44.62 207.5 44.99Q210 45.37 212.5 45.79Q215 46.21 217.5 46.66Q220 47.12 222.5 47.58Q225 48.05 227.5 48.48Q230 48.92 232.5 49.3Q235 49.67 237.5 49.95Q240 50.22 242.5 50.38Q245 50.53 247.5 50.55Q250 50.56 252.5 50.45Q255 50.33 257.5 50.09Q260 49.85 262.5 49.51Q265 49.17 267.5 48.76Q270 48.35 272.5 47.91Q275 47.46 277.5 47Q280 46.55 282.5 46.1Q285 45.65 287.5 45.22Q290 44.78 292.5 44.36Q295 43.93 297.5 43.51Q300 43.09 302.5 42.66Q305 42.23 307.5 41.77Q310 41.32 312.5 40.83Q315 40.34 317.5 39.81Q320 39.29 322.5 38.75Q325 38.22 327.5 37.7Q330 37.17 332.5 36.7Q335 36.22 337.5 35.84Q340 35.47 342.5 35.23Q345 34.99 347.5 34.92Q350 34.86 352.5 34.99Q355 35.12 357.5 35.45Q360 35.79 362.5 36.31Q365 36.84 367.5 37.52Q370 38.19 372.5 38.97Q375 39.75 377.5 40.57Q380 41.39 382.5 42.17Q385 42.96 387.5 43.66Q390 44.36 392.5 44.91Q395 45.47 397.5 45.86Q400 46.24 402.5 46.42Q405 46.61 407.5 46.61Q410 46.61 412.5 46.45Q415 46.29 417.5 46Q420 45.7 422.5 45.31Q425 44.93 427.5 44.5Q430 44.08 432.5 43.64Q435 43.2 437.5 42.79Q440 42.38 442.5 42.01Q445 41.63 447.5 41.3Q450 40.98 452.5 40.71Q455 40.44 457.5 40.21Q460 39.98 462.5 39.8Q465 39.61 467.5 39.47Q470 39.32 472.5 39.22Q475 39.12 477.5 39.08Q480 39.03 482.5 39.05Q485 39.07 487.5 39.18Q490 39.29 492.5 39.5Q495 39.71 497.5 40.03Q500 40.34 502.5 40.76Q505 41.17 507.5 41.67Q510 42.17 512.5 42.72Q515 43.26 517.5 43.8Q520 44.35 522.5 44.84Q525 45.32 527.5 45.7Q530 46.07 532.5 46.28Q535 46.49 537.5 46.49Q540 46.49 542.5 46.27Q545 46.04 547.5 45.59Q550 45.13 552.5 44.48Q555 43.82 557.5 43Q560 42.18 562.5 41.27Q565 40.35 567.5 39.41Q570 38.47 572.5 37.58Q575 36.68 577.5 35.89Q580 35.11 582.5 34.49Q585 33.87 587.5 33.45Q590 33.04 592.5 32.84Q595 32.63 597.5 32.64L600 32.65L600 80L0 80Z' fill='%23EFC078' fill-opacity='0.16'/%3E%3Cpath d='M0 52.88Q5 53.76 7.5 54.28Q10 54.81 12.5 55.39Q15 55.96 17.5 56.55Q20 57.13 22.5 57.68Q25 58.23 27.5 58.71Q30 59.19 32.5 59.56Q35 59.94 37.5 60.19Q40 60.44 42.5 60.55Q45 60.67 47.5 60.66Q50 60.65 52.5 60.52Q55 60.4 57.5 60.2Q60 60 62.5 59.75Q65 59.5 67.5 59.24Q70 58.98 72.5 58.73Q75 58.49 77.5 58.29Q80 58.09 82.5 57.94Q85 57.79 87.5 57.7Q90 57.62 92.5 57.58Q95 57.54 97.5 57.54Q100 57.54 102.5 57.56Q105 57.58 107.5 57.61Q110 57.63 112.5 57.64Q115 57.65 117.5 57.63Q120 57.62 122.5 57.58Q125 57.54 127.5 57.48Q130 57.43 132.5 57.36Q135 57.29 137.5 57.23Q140 57.17 142.5 57.12Q145 57.07 147.5 57.05Q150 57.02 152.5 57.03Q155 57.03 157.5 57.05Q160 57.08 162.5 57.12Q165 57.17 167.5 57.22Q170 57.26 172.5 57.29Q175 57.32 177.5 57.33Q180 57.33 182.5 57.28Q185 57.24 187.5 57.16Q190 57.07 192.5 56.94Q195 56.81 197.5 56.64Q200 56.48 202.5 56.3Q205 56.13 207.5 55.96Q210 55.79 212.5 55.66Q215 55.53 217.5 55.45Q220 55.36 222.5 55.34Q225 55.33 227.5 55.38Q230 55.44 232.5 55.56Q235 55.68 237.5 55.85Q240 56.02 242.5 56.22Q245 56.41 247.5 56.61Q250 56.82 252.5 57Q255 57.18 257.5 57.32Q260 57.46 262.5 57.55Q265 57.63 267.5 57.66Q270 57.69 272.5 57.67Q275 57.65 277.5 57.6Q280 57.55 282.5 57.49Q285 57.43 287.5 57.39Q290 57.36 292.5 57.37Q295 57.38 297.5 57.46Q300 57.54 302.5 57.7Q305 57.86 307.5 58.1Q310 58.34 312.5 58.66Q315 58.97 317.5 59.34Q320 59.7 322.5 60.09Q325 60.48 327.5 60.87Q330 61.26 332.5 61.61Q335 61.96 337.5 62.25Q340 62.55 342.5 62.76Q345 62.97 347.5 63.1Q350 63.23 352.5 63.27Q355 63.3 357.5 63.25Q360 63.21 362.5 63.09Q365 62.98 367.5 62.8Q370 62.63 372.5 62.41Q375 62.19 377.5 61.93Q380 61.67 382.5 61.39Q385 61.1 387.5 60.78Q390 60.47 392.5 60.13Q395 59.79 397.5 59.42Q400 59.05 402.5 58.65Q405 58.25 407.5 57.83Q410 57.41 412.5 56.98Q415 56.55 417.5 56.13Q420 55.71 422.5 55.33Q425 54.95 427.5 54.64Q430 54.33 432.5 54.12Q435 53.91 437.5 53.83Q440 53.75 442.5 53.82Q445 53.89 447.5 54.12Q450 54.36 452.5 54.75Q455 55.14 457.5 55.67Q460 56.2 462.5 56.84Q465 57.47 467.5 58.16Q470 58.86 472.5 59.57Q475 60.28 477.5 60.95Q480 61.61 482.5 62.19Q485 62.77 487.5 63.22Q490 63.67 492.5 63.97Q495 64.26 497.5 64.39Q500 64.51 502.5 64.47Q505 64.42 507.5 64.22Q510 64.02 512.5 63.69Q515 63.35 517.5 62.91Q520 62.48 522.5 61.97Q525 61.46 527.5 60.91Q530 60.36 532.5 59.79Q535 59.22 537.5 58.65Q540 58.08 542.5 57.53Q545 56.98 547.5 56.45Q550 55.93 552.5 55.44Q555 54.94 557.5 54.49Q560 54.04 562.5 53.64Q565 53.25 567.5 52.91Q570 52.58 572.5 52.33Q575 52.07 577.5 51.91Q580 51.75 582.5 51.7Q585 51.66 587.5 51.73Q590 51.81 592.5 52.02Q595 52.22 597.5 52.55L600 52.88L600 80L0 80Z' fill='%23EFC078' fill-opacity='0.11'/%3E%3C/svg%3E");
+  animation: mb-tide 38s linear infinite;
+}
+.intercalaire .quote,
+.band.band--photo .quote {
+  position: relative; z-index: 1; /* au-dessus de la vague */
+  border-left: none; padding-left: 0;
+  color: var(--surface); text-align: left;
+  font-size: clamp(19px, 1.8vw, 25px); line-height: 1.42; max-width: 30ch;
+  margin: 0;
+}
+/* Alterne le sens photo/texte d'un intercalaire à l'autre — simple
+   respiration visuelle, jamais deux de suite dans le même sens. */
+.intercalaire--inverse .photo-media { order: 2; }
+.intercalaire--inverse .legende { order: 1; }
+
+@media (max-width: 800px) {
+  .intercalaire,
+  .band.band--photo { grid-template-columns: 1fr; min-height: 0; }
+  .intercalaire .photo-media,
+  .band.band--photo .photo-media { min-height: 220px; }
+  .intercalaire .legende,
+  .band.band--photo .legende { padding: var(--l) var(--m) calc(var(--l) + 36px); }
+  .intercalaire .legende::after,
+  .band.band--photo .legende::after { height: 36px; background-size: 270px 36px; }
+  .intercalaire .quote,
+  .band.band--photo .quote { text-align: center; max-width: 34ch; margin: 0 auto; }
+  .intercalaire--inverse .photo-media,
+  .intercalaire--inverse .legende { order: initial; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intercalaire .legende::after,
+  .band.band--photo .legende::after { animation: none; }
+}
+
+/* .band--photo vit dans .shell (bandeau carte, coins arrondis, overflow
+   hidden hérités de .band) — la grille ci-dessus s'y loge sans rien
+   déborder. Sélecteur composé .band.band--photo (spécificité 0,2,0) :
+   nécessaire pour gagner sur .band de maree-haute.css (dégradé ambre),
+   chargé après michel.css et donc prioritaire à spécificité égale.
+   Le fond est posé en style inline sur .photo-media (background-image) :
+   un url() relatif dans une custom property se résout par rapport à la
+   feuille de style où le var() est utilisé, pas par rapport à la page —
+   piège vérifié en le corrigeant ; en inline il se résout normalement. */
+.band.band--photo {
+  padding: 0;
+  overflow: hidden;
+}
+.band.band--photo::after { content: none; } /* pas de crête d'écume sur une photo */
+
+/* Photos-ponctuation « couple » et « enfants » (24/08) — d'abord posées
+   avec le composant .galerie de l'art-thérapie, jugé trop lourd pour de
+   simples touches décoratives (Michel : « ponctuation dans le site pour
+   casser la monotonie », pas une seconde galerie à documenter). Rangée de
+   petites vignettes, une légende partagée au lieu d'une légende répétée
+   par image, recadrage assumé (contrairement aux œuvres : ce ne sont pas
+   des travaux de patients à donner à voir intégralement). */
+.ponctuation-photos {
+  display: flex; flex-wrap: wrap; align-items: flex-start;
+  gap: var(--s); margin: var(--l) 0 0;
+}
+.ponctuation-photos .cadre-mini {
+  display: block; flex: none;
+  width: 104px; height: 104px; /* retour Emilien (24/08, v2) : trop petit, agrandi de 76→104px */
+  border-radius: var(--r-s);
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+}
+.ponctuation-photos .cadre-mini img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.ponctuation-photos + .t-caption { margin-top: var(--xs); }
+@media (max-width: 480px) {
+  .ponctuation-photos .cadre-mini { width: 84px; height: 84px; }
+}
+
+/* Médaillons décoratifs — ponctuation en marge des sections, uniquement
+   sur très grand écran. Choix assumé : sous 1600px de large, la marge
+   entre le contenu (1280px, --w-shell) et le bord ne laisse pas la place
+   de poser un cadre de 96px sans risquer d'empiéter sur le texte — donc
+   pas de médaillon plutôt qu'un médaillon qui nuit à la lisibilité,
+   conformément à la consigne. */
+.medaillon-host { position: relative; }
+.medaillon { display: none; }
+@media (min-width: 1600px) {
+  .medaillon {
+    display: block;
+    position: absolute;
+    top: var(--xxl);
+    width: 96px; height: 96px;
+    border-radius: var(--r-m);
+    overflow: hidden;
+    box-shadow: var(--shadow-2);
+    border: 3px solid var(--surface);
+    z-index: 1;
+  }
+  .medaillon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .medaillon--left  { left: calc(50% - 760px); }
+  .medaillon--right { right: calc(50% - 760px); }
+}
+@media (prefers-reduced-motion: reduce) { .medaillon { transition: none; } }
+
 /* ─── §7 · Responsive (DA §8 — une colonne sous 900px) ─── */
 
 /* Nav : bascule en menu déroulant dès que les 5 entrées ne tiennent plus */
@@ -561,7 +913,11 @@ a:hover { color: var(--accent-strong); }
   .two-col { grid-template-columns: 1fr; gap: var(--l); }
   .two-col .col + .col { border-left: none; padding-left: 0; border-top: 1px solid var(--hairline); padding-top: var(--l); }
 }
+@media (max-width: 900px) {
+  .galerie, .acc-body ul.galerie { grid-template-columns: repeat(2, 1fr); gap: var(--m); }
+}
 @media (max-width: 640px) {
+  .galerie, .acc-body ul.galerie { grid-template-columns: repeat(2, 1fr); gap: var(--s); }
   .pratiques-grid { grid-template-columns: 1fr; }
   .band { padding: var(--l) var(--m); }
   .steps li { grid-template-columns: 48px 1fr; }

@@ -14,9 +14,14 @@
 
   <!-- Polices auto-hébergées — aucune requête vers Google, aucune IP visiteur transmise.
        Fichiers produits par outils/telecharger-polices.ps1 -->
+  <link rel="icon" href="assets/img/favicon/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon/favicon-192x192.png">
   <link rel="stylesheet" href="assets/css/fonts.css">
   <link rel="stylesheet" href="assets/css/ds/styles.css">
-  <link rel="stylesheet" href="assets/css/michel.css">
+  <link rel="stylesheet" href="assets/css/michel.css?v=20260818c">
   <link rel="stylesheet" href="assets/css/maree-haute.css">
 
   <!-- FAQ structurée — extraits courts, le détail reste sur la page -->
@@ -38,12 +43,22 @@
       {
         "@type": "Question",
         "name": "Quels sont les tarifs des séances ?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Adulte : 60 €, avec adaptation possible selon les ressources. Adolescent ou enfant : 40 €. Thérapie de couple : 90 €. Art-thérapie en individuel : 60 €." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Adulte : 55 €, avec adaptation possible selon les ressources. Adolescent ou enfant : 40 €. Thérapie de couple : 90 €. Art-thérapie en individuel : 60 €." }
       },
       {
         "@type": "Question",
         "name": "Les séances sont-elles remboursées ?",
         "acceptedAnswer": { "@type": "Answer", "text": "Le règlement se fait en fin de séance, par chèque ou en espèces, avec facture sur demande. Certaines mutuelles couvrent les séances au titre d'un forfait psychologie, santé mentale, médecines douces ou consultations non remboursées par la Sécurité sociale." }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment se déroule une séance d'art-thérapie ?",
+        "acceptedAnswer": { "@type": "Answer", "text": "La première séance est consacrée à faire connaissance et à parler des raisons de votre démarche, puis au choix du médium pour la suivante. Lors de la séance suivante, après le temps d'accueil, une consigne de production est proposée avec le médium choisi. Après la réalisation, un temps d'échange permet de décrire et d'interpréter l'expérience." }
+      },
+      {
+        "@type": "Question",
+        "name": "Une psychanalyse ou une thérapie psychodynamique, combien cela va-t-il me coûter ?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Cela dépend de la durée, qui dépend elle-même de votre propension à accéder à l'introspection et à faire des liens au fil des séances. Il n'y a pas de règle fixe : chacun avance à son rythme, maître de son récit." }
       }
     ]
   }
@@ -55,8 +70,8 @@
   <header class="site-header">
     <div class="shell bar">
       <a class="brand" href="index.html" aria-label="Michel Bourjac — retour à l'accueil">
+        <img class="brand-logo" src="assets/img/logo-michel-bourjac-embleme.jpg" alt="" width="640" height="768">
         <span class="name">Michel Bourjac</span>
-        <span class="t-label">Psychanalyste &amp; Art-thérapeute</span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
         <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
@@ -95,7 +110,10 @@
     </section>
 
     <!-- ═══ — 01 · Avant de venir ═══ -->
-    <section class="section band-wash band-wash--tide" aria-labelledby="h-avant">
+    <section class="section band-wash band-wash--tide medaillon-host" aria-labelledby="h-avant">
+      <span class="medaillon medaillon--left" aria-hidden="true">
+        <img src="assets/img/medaillons/caillou-verdure.jpg" width="700" height="700" loading="lazy" decoding="async" alt="">
+      </span>
       <div class="shell">
         <div class="section-head section--ruled reveal">
           <span class="num">— 01</span>
@@ -203,7 +221,10 @@
     </section>
 
     <!-- ═══ — 02 · Comprendre la démarche ═══ -->
-    <section class="section band-wash band-wash--sand" aria-labelledby="h-comprendre">
+    <section class="section band-wash band-wash--sand medaillon-host" aria-labelledby="h-comprendre">
+      <span class="medaillon medaillon--right" aria-hidden="true">
+        <img src="assets/img/medaillons/angelot-voute.jpg" width="700" height="700" loading="lazy" decoding="async" alt="">
+      </span>
       <div class="shell">
         <div class="section-head section--ruled reveal">
           <span class="num">— 02</span>
@@ -221,6 +242,7 @@
             <div class="acc-body">
               <div class="acc-resume">
                 <span class="t-label">En résumé</span>
+                <p>Le sac à dos, c&rsquo;est ce qui pèse dans la tête et sur le corps.</p>
                 <p>Il n&rsquo;y a pas de durée fixée d&rsquo;avance, et pas de durée minimum.
                    Le rythme se décide ensemble, au fil des séances.</p>
               </div>
@@ -229,7 +251,7 @@
                  que nous prenons ensemble.</p>
               <p>En thérapie psychanalytique, le terrain, ce sont les résistances — plus ou moins
                  conscientes — qui freinent l&rsquo;avancée de la démarche. Le sac à dos, c&rsquo;est ce qui
-                 pèse dans la tête : les problèmes, les conflits, les traumatismes.</p>
+                 pèse dans la tête et sur le corps : les problèmes, les conflits, les traumatismes.</p>
               <p>Il n&rsquo;y a donc pas de règle. On dit communément qu&rsquo;au bout d&rsquo;un an, les patients
                  commencent à mieux identifier leurs limitations et les enjeux de leur démarche.
                  Ce n&rsquo;est pas un engagement que vous prenez aujourd&rsquo;hui : c&rsquo;est une observation
@@ -244,16 +266,14 @@
               <span class="sign" aria-hidden="true"></span>
             </summary>
             <div class="acc-body">
-              <div class="ph ph--draft" data-src="Réponse rédigée — accord de Michel attendu">
-                <p style="margin:0 0 var(--xs)">Vous pouvez arrêter quand vous le souhaitez. Il n&rsquo;y a
-                   aucun engagement de durée, aucun nombre de séances à atteindre, et vous n&rsquo;avez
-                   pas à vous justifier.</p>
-                <p style="margin:0 0 var(--xs)">Si vous décidez d&rsquo;arrêter, une dernière séance pour
-                   en parler est souvent utile. Elle n&rsquo;est pas obligatoire.</p>
-                <p style="margin:0">Il arrive aussi que les séances s&rsquo;espacent d&rsquo;elles-mêmes,
-                   plutôt que de s&rsquo;interrompre. C&rsquo;est un déroulement fréquent, et ce n&rsquo;est
-                   pas un échec.</p>
-              </div>
+              <p>Vous pouvez arrêter quand vous le souhaitez. Il n&rsquo;y a
+                 aucun engagement de durée, aucun nombre de séances à atteindre, et vous n&rsquo;avez
+                 pas à vous justifier.</p>
+              <p>Si vous décidez d&rsquo;arrêter, une dernière séance pour
+                 en parler est souvent utile. Elle n&rsquo;est pas obligatoire.</p>
+              <p>Il arrive aussi que les séances s&rsquo;espacent d&rsquo;elles-mêmes,
+                 plutôt que de s&rsquo;interrompre. C&rsquo;est un déroulement fréquent, et ce n&rsquo;est
+                 pas un échec.</p>
             </div>
           </details>
 
@@ -309,7 +329,10 @@
                  modèles imposés par votre entourage ou votre éducation, ceux qui empêchent le
                  processus d&rsquo;individuation.</p>
               <p>La psychothérapie psychanalytique permet ainsi de devenir soi-même, de s&rsquo;accepter
-                 et de se sentir légitime dans ses désirs et ses fantasmes.</p>
+                 et de se sentir légitime dans ses désirs et ses fantasmes. Cette expérience au
+                 plus proche de votre intimité permet de briser les schémas répétitifs, les peurs,
+                 les freins qui entravent votre existence. La cure analytique renforce le Moi.
+                 Elle ouvre au monde et à l&rsquo;altérité.</p>
             </div>
           </details>
 
@@ -324,6 +347,29 @@
                  jamais une œuvre de manière hâtive, et je privilégie toujours le processus créatif
                  plutôt que le résultat.</p>
               <p><a class="cta-link" href="pratiques.html#art">Découvrir la médiation par l&rsquo;art <span class="arr" aria-hidden="true">↗</span></a></p>
+            </div>
+          </details>
+
+          <details class="acc" id="deroulement-art-therapie">
+            <summary>
+              <span>Comment se déroule une séance d&rsquo;art-thérapie ?</span>
+              <span class="sign" aria-hidden="true"></span>
+            </summary>
+            <div class="acc-body">
+              <p>La première séance est consacrée à faire connaissance et à parler des raisons
+                 de votre démarche. À l&rsquo;issue de cette séance, nous convenons du choix du médium
+                 pour la prochaine séance (dessin, collage, argile&hellip;).</p>
+              <p>Lors de la séance suivante, après le temps d&rsquo;accueil, je vous propose une
+                 consigne de production avec le médium choisi. Exemples : « Si vous étiez un
+                 animal — dessinez », « Représentez un lieu imaginaire », « À partir de la boule
+                 d&rsquo;argile à disposition, représentez-vous avec des super-pouvoirs »&hellip;
+                 Dans certains cas, la production peut
+                 être réalisée à domicile.</p>
+              <p>Après la phase de réalisation, je vous propose de parler de votre production,
+                 d&rsquo;exprimer votre point de vue sur cette expérience. Je vous accompagne dans
+                 cette phase de description et d&rsquo;interprétation.</p>
+              <p>Cette première production représente la première pierre à l&rsquo;édifice de votre
+                 processus de soin.</p>
             </div>
           </details>
 
@@ -350,12 +396,30 @@
             <div class="acc-body">
               <p class="t-label">Thérapie psychodynamique — psychanalyse</p>
               <ul class="tarifs">
-                <li><span>Adulte <span class="quiet">— adaptation possible suivant les ressources</span></span> <span class="prix">60 €</span></li>
+                <li><span>Adulte <span class="quiet">— adaptation possible suivant les ressources</span></span> <span class="prix">55 €</span></li>
                 <li><span>Adolescent ou enfant</span> <span class="prix">40 €</span></li>
                 <li><span>Thérapie de couple</span> <span class="prix">90 €</span></li>
                 <li><span>Art-thérapie en individuel</span> <span class="prix">60 €</span></li>
               </ul>
               <p>Une séance dure 45 minutes, le plus souvent à raison d&rsquo;une fois par semaine.</p>
+            </div>
+          </details>
+
+          <details class="acc" id="cout">
+            <summary>
+              <span>Une psychanalyse ou une thérapie psychodynamique, combien cela va-t-il me coûter ?</span>
+              <span class="sign" aria-hidden="true"></span>
+            </summary>
+            <div class="acc-body">
+              <p>C&rsquo;est une question en rapport avec la durée. En toute franchise, cela va
+                 dépendre de vous, de votre propension à accéder à l&rsquo;introspection, à aller au
+                 fond de vous et à en parler. La psychanalyse repose sur la capacité, avec l&rsquo;aide
+                 du thérapeute, à faire des liens au fil des séances, dans la narration de votre
+                 histoire. Je vous y aide, mais vous restez maître de votre récit et du tempo.</p>
+              <p>Deux voyageurs partent chacun de leur côté avec pour seul but de faire des
+                 « découvertes extraordinaires ». L&rsquo;un y accède après 6 mois de voyage. Après
+                 plus d&rsquo;un an d&rsquo;exploration, le second est toujours en quête — il n&rsquo;est pas
+                 comblé, il souhaite continuer son odyssée.</p>
             </div>
           </details>
 
@@ -416,6 +480,16 @@
       </div>
     </section>
 
+    <!-- ═══ Intercalaire — respiration plein largeur (24/08) ═══ -->
+    <section class="intercalaire" aria-label="Citation">
+      <div class="photo-media" style="background-image: url('assets/img/paysages/paysage-champ-dore.jpg');"></div>
+      <div class="legende">
+        <blockquote class="quote">
+          <p style="margin:0">La thérapie analytique psychodynamique ouvre au monde, à l&rsquo;altérité.</p>
+        </blockquote>
+      </div>
+    </section>
+
     <!-- ═══ — 04 · Contact ═══ -->
     <section class="section" aria-labelledby="h-contact">
       <div class="shell">
@@ -429,7 +503,7 @@
             <div>
               <h2 id="h-contact" class="m-h2">Une question sans réponse ?</h2>
               <p style="max-width:44ch; color: var(--surface); font-size:17px; line-height:1.65;">
-                Posez-la moi directement. Un premier message n&rsquo;engage à rien.
+                Posez-la moi directement. Prendre le temps d&rsquo;un premier message.
               </p>
               <div class="contact-actions">
                 <a class="btn btn--on-dark" href="contact.html">Écrire un message</a>
@@ -437,7 +511,8 @@
             </div>
             <dl class="contact-dl">
               <div><dt>Téléphone</dt><dd><a href="tel:+33620207391">06 20 20 73 91</a></dd></div>
-              <div><dt>Cabinet</dt><dd>Corme-Écluse (17600) — parking sur place</dd></div>
+              <div><dt>E-mail</dt><dd><a href="mailto:psy.mbourjac@gmail.com">psy.mbourjac@gmail.com</a></dd></div>
+              <div><dt>Cabinet</dt><dd>11 rue de Chez Douteau, 17600 Corme-Écluse</dd></div>
               <div><dt>Réponse</dt><dd>Sous 48 heures</dd></div>
             </dl>
           </div>
@@ -448,6 +523,7 @@
 
   <footer class="site-footer">
     <div class="shell inner">
+      <img class="footer-logo" src="assets/img/logo-michel-bourjac-horizontal.jpg" width="900" height="509" loading="lazy" decoding="async" alt="Michel Bourjac — Psychanalyse, thérapie psychodynamique, art-thérapie">
       <p class="footer-thought">« Ce qui se dit ici ne sort pas d&rsquo;ici. »</p>
       <nav class="footer-legal" aria-label="Navigation de pied de page">
         <span>© 2026 Michel Bourjac · HELISCOOP</span>
@@ -467,6 +543,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/main.js?v=20260818b" defer></script>
 </body>
 </html>
