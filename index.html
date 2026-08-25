@@ -23,7 +23,7 @@
 
   <!-- DS CARYON (squelette intact) puis peau Michel -->
   <link rel="stylesheet" href="assets/css/ds/styles.css">
-  <link rel="stylesheet" href="assets/css/michel.css?v=20260825a">
+  <link rel="stylesheet" href="assets/css/michel.css?v=20260825e">
   <link rel="stylesheet" href="assets/css/maree-haute.css">
 
   <script type="application/ld+json">
@@ -61,7 +61,19 @@
           "addressRegion": "Charente-Maritime",
           "addressCountry": "FR"
         },
-        "areaServed": "Charente-Maritime"
+        "areaServed": {
+          "@type": "AdministrativeArea",
+          "name": "Charente-Maritime (17)"
+        },
+        "parentOrganization": {
+          "@type": "Organization",
+          "name": "HELISCOOP",
+          "identifier": {
+            "@type": "PropertyValue",
+            "name": "RCS Saintes",
+            "value": "822 425 922"
+          }
+        }
       }
     ]
   }
@@ -75,7 +87,13 @@
     <div class="shell bar">
       <a class="brand" href="index.html" aria-label="Michel Bourjac — retour à l'accueil">
         <img class="brand-logo" src="assets/img/logo-michel-bourjac-embleme-transparent.png" alt="" width="300" height="320">
-        <span class="name">Michel Bourjac</span>
+        <span class="brand-text">
+          <span class="name-block">
+            <span class="name">Michel Bourjac</span>
+            <span class="brand-sep" aria-hidden="true"><span class="brand-sep-line"></span><span class="brand-sep-dot"></span><span class="brand-sep-line"></span></span>
+          </span>
+          <span class="tagline">Psychanalyste &amp; Art-thérapeute</span>
+        </span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
         <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
@@ -122,10 +140,10 @@
         </div>
         <figure class="reveal" style="--reveal-delay: 200ms;">
           <div class="portrait-frame">
-            <img src="assets/img/michel-bourjac-portrait.jpg" width="1100" height="1375" loading="eager" decoding="async"
-                 alt="Portrait de Michel Bourjac, psychanalyste et art-thérapeute, dans un intérieur chaleureux.">
+            <img src="assets/img/michel-bourjac-portrait-exterieur.jpg" width="900" height="1125" loading="eager" decoding="async"
+                 alt="Portrait de Michel Bourjac, psychanalyste et art-thérapeute, en extérieur.">
           </div>
-          <figcaption class="t-caption figure-caption">Michel Bourjac, au cabinet de Corme-Écluse.</figcaption>
+          <figcaption class="t-caption figure-caption">Michel Bourjac, psychanalyste et art-thérapeute.</figcaption>
         </figure>
       </div>
     </section>
