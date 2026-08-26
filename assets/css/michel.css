@@ -103,7 +103,7 @@ strong, b { font-weight: 500; color: var(--ink); }
 /* ─── §3 · Échelle typographique Michel (DA §3 — titres en serif) ─── */
 .m-h1 {
   font-family: var(--ff-serif); font-weight: 400;
-  font-size: clamp(40px, 4.6vw, 66px); line-height: 1.08;
+  font-size: clamp(34px, 3.9vw, 56px); line-height: 1.1;
   letter-spacing: -0.02em; color: var(--ink);
   text-wrap: pretty; margin: 0;
 }
@@ -138,6 +138,17 @@ strong, b { font-weight: 500; color: var(--ink); }
 }
 .section-head .num { font-size: 15px; }
 .t-label.reveal { font-size: 15px; font-weight: 600; letter-spacing: 0.1em; color: var(--ink-soft); }
+
+/* ─── Révision 2/2 (26/08) — Michel trouve le blanc entre deux sections
+   numérotées excessif. Le rythme .section (padding-top/bottom: var(--xl))
+   + .section+.section (margin-top: var(--sec)) donnait ~192px de vide
+   entre le dernier contenu d'une section et le titre de la suivante.
+   Resserré une 1re fois à ~128px (padding var(--l) + margin var(--xxl)) ;
+   Michel demande encore moins d'espace le jour même — resserré une 2e
+   fois à ~96px (override projet, on ne touche pas aux tokens ds/
+   partagés avec les autres projets CARYON). */
+.section { padding-top: var(--m); padding-bottom: var(--m); }
+.section + .section { margin-top: var(--xl); }
 
 /* Card */
 .card {
@@ -709,26 +720,27 @@ sup a { text-decoration: none; padding: 0 2px; }
 
 .galerie figure { margin: 0; }
 
+/* Retour Emilien (26/08, v3) : Michel demande le meme style que les
+   photos-ponctuation (cadre-mini) -- plus de pourtour matelassé
+   (padding + fond "surface-deep") derriere les oeuvres non carrees,
+   juste une bordure fine + coin arrondi, photo au ras du cadre.
+   Reprend le compromis "integralite" de la v2 en changeant d'avis :
+   object-fit passe a cover (comme cadre-mini) -- les oeuvres non
+   carrees sont donc legerement recadrees dans la vignette, choix
+   assume par Michel au profit de l'uniformite visuelle avec le
+   reste du site. Legendes (figcaption) retirees, alt conserve. */
 .galerie .cadre {
   display: flex; align-items: center; justify-content: center;
   width: 100%; aspect-ratio: 1 / 1;
-  background: var(--surface-deep);
   border: 1px solid var(--hairline);
   border-radius: var(--r-s);
   overflow: hidden;
 }
-/* Retour Emilien (24/08, v2) : même DA que les vignettes-ponctuation
-   (cadre-mini) — bordure fine + coin arrondi, photo au ras du cadre,
-   sans le pourtour matelassé (padding + fond) de la v1. object-fit:
-   contain (et non cover, comme cadre-mini) : contrairement aux photos-
-   ponctuation, ce sont des travaux de patients, à montrer intégralement,
-   jamais recadrés. */
 .galerie .cadre img {
   display: block;
   width: 100%; height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
-.galerie figcaption { margin-top: 8px; }
 
 /* Encadré « à valider » posé DANS le contenu — plus fort qu'un .ph
    parce qu'il porte une réserve juridique, pas une info manquante. */
@@ -912,6 +924,19 @@ sup a { text-decoration: none; padding: 0 2px; }
   .ponctuation-photos .cadre-mini { width: 84px; height: 84px; }
 }
 
+/* Révision (26/08) : photos "ponctuation" désormais réparties une par une,
+   au fil du texte, juste après le paragraphe auquel chacune se rattache
+   (demande Michel — image liée à un paragraphe précis, plutôt que toutes
+   groupées en une seule rangée en bas de l'accordéon). --solo agrandit
+   légèrement la vignette (elle n'a plus de voisines pour faire masse) et
+   ajoute une respiration en dessous, puisqu'un paragraphe de texte suit
+   directement au lieu d'une légende. */
+.ponctuation-photos--solo { margin: var(--l) 0; }
+.ponctuation-photos--solo .cadre-mini { width: 132px; height: 132px; }
+@media (max-width: 480px) {
+  .ponctuation-photos--solo .cadre-mini { width: 96px; height: 96px; }
+}
+
 /* Médaillons décoratifs — ponctuation en marge des sections, uniquement
    sur très grand écran. Choix assumé : sous 1600px de large, la marge
    entre le contenu (1280px, --w-shell) et le bord ne laisse pas la place
@@ -953,7 +978,20 @@ sup a { text-decoration: none; padding: 0 2px; }
   .site-nav.open { display: flex; }
   .site-nav a { padding: 14px 0; border-top: 1px solid var(--hairline); font-size: 17px; white-space: normal; }
   .site-nav a::after { display: none; }
-  .site-nav .btn { display: inline-flex; margin-top: var(--s); align-self: flex-start; }
+  /* Bug corrige (revision 2/2, 26/08) : .site-nav a { padding: 14px 0 }
+     l'emportait sur .btn { padding: 0 28px } (meme poids de classe mais un
+     element en plus cote .site-nav a) -- le CTA dans le menu mobile ouvert
+     se retrouvait sans marge horizontale, texte colle aux bords, illisible.
+     Repris ici avec 2 classes (.site-nav .btn), specificite superieure,
+     padding horizontal du bouton restaure. */
+  .site-nav .btn { display: inline-flex; margin-top: var(--s); align-self: flex-start; padding: 0 28px; }
+  /* Meme bug, sur color cette fois (26/08, retour Emilien) : .site-nav a
+     { color: var(--ink-soft) } et .site-nav a:hover { color: var(--ink) }
+     l'emportaient aussi sur .btn { color: var(--cta-fg) } -- le texte du
+     CTA (fond fonce --cta-bg) devenait quasi illisible (gris fonce sur
+     bleu petrole, puis noir au survol). Repris avec .site-nav .btn /
+     .site-nav .btn:hover, meme couleur que le CTA de la navbar desktop. */
+  .site-nav .btn, .site-nav .btn:hover { color: var(--cta-fg); }
 }
 
 @media (max-width: 1024px) {
