@@ -589,6 +589,14 @@ sup a { text-decoration: none; padding: 0 2px; }
 .footer-urgence a { color: var(--ink-quiet); text-decoration: underline; text-underline-offset: 3px; }
 .footer-urgence a:hover { color: var(--ink); }
 
+/* Mention CAPE (retour Michel 27/08) — obligation art. L127-4 / R127-2
+   du Code de commerce pour le bénéficiaire d'un Contrat d'Appui au
+   Projet d'Entreprise : indiquer sur les documents commerciaux le
+   bénéfice du Cape (durée), la dénomination sociale, le siège social
+   et le numéro d'identification de la structure accompagnatrice
+   (HELISCOOP). Même traitement typographique que .footer-urgence. */
+.footer-legal-mention { font-size: 13px; line-height: 1.6; color: var(--ink-quiet); max-width: 70ch; }
+
 /* Liste de prix (FAQ tarifs) */
 .tarifs { list-style: none; margin: 0; padding: 0; }
 .tarifs li {
@@ -826,9 +834,26 @@ sup a { text-decoration: none; padding: 0 2px; }
    hauteur de la ligne, plus haute que le min-height de 260px a cause du
    contenu de .legende. Modificateur scope a CETTE instance seulement --
    ne pas elargir a .intercalaire .photo-media (impacterait aussi les
-   intercalaires de pratiques.html et questions.html, non concernes). */
+   intercalaires de pratiques.html et questions.html, non concernes).
+   Retour Michel (27/08) : "center bottom 50px" (décalage en pixels
+   depuis le bord bas) créait un vide sous la photo quand la ligne
+   .intercalaire n'a pas assez de hauteur de débordement pour absorber
+   50px — bug confirmé et corrigé en repassant en pourcentage, qui ne
+   peut jamais créer de vide avec background-size:cover. Valeur 64%
+   calée par analyse pixel sur le cadrage envoyé par Michel (arbre bien
+   dans le cadre, peupliers visibles en bas, ciel dégagé au-dessus). */
 .intercalaire .photo-media.photo-media--align-bottom {
-  background-position: center bottom;
+  background-position: center 64%;
+}
+
+/* Retour Michel (27/08) : sur l'intercalaire "La thérapie analytique
+   psychodynamique ouvre au monde, à l'altérité" (questions.html), le
+   centrage par défaut coupait la bouée/balise en mer (visible seulement
+   par le haut du mât). Recadrage vertical pour montrer la bouée en
+   entier tout en gardant le plus possible du ciel embrasé. Instance
+   scopée à cette seule photo, même logique que --align-bottom ci-dessus. */
+.intercalaire .photo-media.photo-media--focus-bouee {
+  background-position: center 65%;
 }
 .intercalaire .legende,
 .band.band--photo .legende {
@@ -935,6 +960,42 @@ sup a { text-decoration: none; padding: 0 2px; }
 .ponctuation-photos--solo .cadre-mini { width: 132px; height: 132px; }
 @media (max-width: 480px) {
   .ponctuation-photos--solo .cadre-mini { width: 96px; height: 96px; }
+}
+
+/* PhotoQuote — bande photo pleine largeur, citation incrustée
+   directement sur l'image (retour Michel 27/08 : remplace les petites
+   photos-ponctuation de l'accordéon Psychanalyse — « des photos de
+   paysage avec le texte par-dessus, comme le bandeau Accueillir…
+   [.band.band--photo] mais sans la partie bleue »). Voile dégradé bas
+   plutôt qu'un pavé de couleur plein : le texte reste lisible (AAA)
+   sans reposer sur un bloc --contrast séparé. */
+.photo-quote {
+  position: relative;
+  display: flex; align-items: flex-end;
+  min-height: 340px;
+  margin: var(--l) 0;
+  border-radius: var(--r-l);
+  overflow: hidden;
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+}
+.photo-quote::before {
+  content: "";
+  position: absolute; inset: 0;
+  /* --ink en voile, pas --contrast : le bleu de la légende aurait
+     recréé la « partie bleue » que Michel voulait justement retirer. */
+  background: linear-gradient(to top, rgba(30,42,50,0.86) 0%, rgba(30,42,50,0.45) 45%, rgba(30,42,50,0) 75%);
+  pointer-events: none;
+}
+.photo-quote .quote {
+  position: relative; z-index: 1;
+  color: var(--surface);
+  border-left: none; padding-left: 0;
+  max-width: 46ch;
+  padding: var(--xl) var(--l);
+}
+@media (max-width: 600px) {
+  .photo-quote { min-height: 280px; }
+  .photo-quote .quote { padding: var(--l) var(--m); font-size: clamp(18px, 4.6vw, 21px); }
 }
 
 /* Médaillons décoratifs — ponctuation en marge des sections, uniquement
