@@ -1,6 +1,6 @@
 /* CARYON · Reset & base element styles */
 *, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; overflow-x: hidden; }
+html, body { margin: 0; padding: 0; overflow-x: clip; }
 html { scroll-behavior: smooth; }
 body {
   background: var(--surface);
