@@ -380,3 +380,19 @@ figure:has(.portrait-frame)::before {
     background-repeat: repeat, no-repeat, no-repeat;
     background-size: 200px 200px, auto, auto; }
 }
+
+/* ─── §9 · Mobile — rythme vertical resserré ──────────────────
+   Demande Michel (retour coopérative) : le scroll est trop long
+   sur téléphone. On resserre nettement les paddings/margins
+   verticaux entre sections en dessous de 768px, sans toucher au
+   rythme desktop/tablette qui reste la "respiration généreuse" de
+   la DA. Gap section-à-section : 96px → 32px (-66%). */
+@media (max-width: 768px) {
+  .section { padding-top: var(--xs); padding-bottom: var(--xs); }
+  .section + .section { margin-top: var(--s); }
+  .hero { padding-top: var(--l); padding-bottom: calc(var(--m) + 56px); }
+  .page-head { padding-top: var(--l); padding-bottom: var(--s); }
+  .band-wash + .band-wash { padding-top: var(--m); }
+  .site-footer { padding-top: var(--s); }
+  .section-head { margin-bottom: var(--s); }
+}
